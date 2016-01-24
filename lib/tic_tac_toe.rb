@@ -2,41 +2,60 @@ require "tic_tac_toe/version"
 
 module TicTacToe
   class Game
-    #cambiar los accesors a reader o writers
-    attr_accessor :current_player,
-    :winner,
-    :draw,
-    :grid,
-    :limit_chips_to_win,
-    :limit_moves,
-    :remaining_moves
-    :keep_playing
+    attr_reader :board, :player, :judge, :scoreboard
+
+    def initialize
+      @player = TicTacToe::Player.new
+      @judge = TicTacToe::Judge.new
+    end
+
+    def there_is_a_winner?
+      judge.check_winner(player.board.grid, player.current_player)
+    end
+
+    def there_is_a_draw?
+      judge.check_draw
+    end
+
+    def restart_game
+      puts "restart game"
+    end
+  end
+
+  class Player
+    attr_accessor :board, :current_player
 
     def initialize
       @current_player = 0
-      @winner = false
-      @draw = false
-      @keep_playing = false
-      @limit_chips_to_win = 3
-      @limit_moves = @limit_chips_to_win*@limit_chips_to_win
-      @remaining_moves = @limit_moves
+      @board = TicTacToe::Board.new
     end
 
-    def start_game
-      start_board
+    def set_chip_to_board(x,y)
+      if board.set_chip(x,y,current_player)
+         change_turn
+         return true
+      else
+         return false
+      end
     end
 
-    def start_board
+    def change_turn
+      @current_player = @current_player == 0 ? 1 : 0
+    end
+
+  end
+
+  class Board
+    attr_reader :grid
+
+    def initialize
       @grid = Array.new(3) { Array.new(3) }
     end
 
-    def send_coordinate(x,y)
+    #private
+    def set_chip(x,y, current_player)
       if slot_available?(x,y)
-        set_chip(x,y)
-        decrement_moves
-        check_draw
-        check_winner
-        change_turn
+        @grid[x][y] = current_player
         return true
       else
         return false
@@ -46,78 +65,84 @@ module TicTacToe
     def slot_available?(x,y)
       @grid[x][y].nil?
     end
+  end
 
-    def set_chip(x,y)
-      @grid[x][y] = current_player
-    end
+  class Juedge
+    attr_reader :limit_moves_to_win, :limit_chips_to_win,
+      :remaining_moves, :winner, :draw
 
-    def decrement_moves
-      @remaining_moves -= 1
+    def initialize
+      @limit_chips_to_win = 3
+      @limit_moves_to_win = @limit_chips_to_win*@limit_chips_to_win
+      @remaining_moves = @limit_moves_to_win
+      @winner = false
+      @draw = false
     end
 
     def check_draw
-      if (@remaining_moves == 0) && !@winner
-        @draw = true
+      draw = (remaining_moves == 0) && !winner
     end
 
-    def check_winner
-      check_grid_horizontal || check_grid_vertical ||
-      check_grid_diagonal_left_up || check_grid_diagonal_left_down
+    def check_winner(grid,current_player)
+      check_grid_horizontal(grid,current_player) ||
+      check_grid_vertical(grid,current_player) ||
+      check_grid_diagonal_left_up(grid,current_player) ||
+      check_grid_diagonal_left_down(grid,current_player)
     end
 
-    def check_grid_horizontal
-      for i in 0..(@limit_chips_to_win - 1)
+    def check_grid_horizontal(grid,current_player)
+      for i in 0..(limit_chips_to_win - 1)
         num_chips = 0
-        for j in 0..(@limit_chips_to_win - 1)
-          if @grid[i][j] == @current_player
+        for j in 0..(limit_chips_to_win - 1)
+          if grid[i][j] == current_player
             num_chips += 1
-            @winner = num_chips == @limit_chips_to_win
+            winner = num_chips == limit_chips_to_win
           end
         end
       end
-      @winner
+      winner
     end
 
-    def check_grid_vertical
-      for i in 0..(@limit_chips_to_win - 1)
+    def check_grid_vertical(grid,current_player)
+      for i in 0..(limit_chips_to_win - 1)
         num_chips = 0
-        for j in 0..(@limit_chips_to_win - 1)
-          if @grid[j][i] == @current_player
+        for j in 0..(limit_chips_to_win - 1)
+          if grid[j][i] == current_player
             num_chips += 1
-            @winner = num_chips == @limit_chips_to_win
+            winner = num_chips == limit_chips_to_win
           end
         end
       end
-      @winner
+      winner
     end
 
-    def check_grid_diagonal_left_up
+    def check_grid_diagonal_left_up(grid,current_player)
       num_chips = 0
-      for i in 0..(@limit_chips_to_win - 1)
-        if @grid[i][i] == @current_player
+      for i in 0..(limit_chips_to_win - 1)
+        if grid[i][i] == current_player
           num_chips += 1
-            @winner = num_chips == @limit_chips_to_win
+            winner = num_chips == limit_chips_to_win
         end
       end
-      @winner
+      winner
     end
 
-    def check_grid_diagonal_left_down
+    def check_grid_diagonal_left_down(grid,current_player)
       column = 0
       num_chips = 0
-      (@limit_chips_to_win - 1).downto(0) do |i|
-        if @grid[i][column] == @current_player
+      (limit_chips_to_win - 1).downto(0) do |i|
+        if grid[i][column] == current_player
           num_chips += 1
           column += 1
-          @winner = num_chips == @limit_chips_to_win
+          winner = num_chips == limit_chips_to_win
         end
       end
-      @winner
-    end
-
-    def change_turn
-      @current_player = @current_player == 0 ? 1 : 0
+      winner
     end
 
   end
+
+  class Score
+  end
+
 end
