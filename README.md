@@ -4,7 +4,6 @@
 Tic Tac Toe gem will help you with your logic game. Is really simple to use it. This gem isn't yet in "rubygems.org" this is still a test but it could help you. If so, you can clone the repo.
 
 There are four classes in use and all of them are in the same module ' TicTacToe '
-Classes: 
 
 ###**Game**###
 
@@ -42,6 +41,33 @@ The implementation to increase the dimensions is pending. This method is manage 
 Class Judge takes care if there is a winner or a draw game. 
 
 After this brief explanation, I'll show you how to handle the gem.
+
+The first step is to instantiate the Class Game. This class is the one that is going to interact all the time with the logic.
+
+i.e : game = TicTacToc::Game.new
+
+After doing that, to start playing and setting the chips on grid and send the player coordinates..
+
+
+Do this: game.send_coordinate(x,y)
+
+It returns true if the coordinate was set correctly and false if not.
+
+To check if there is a winner, only do : game.there_is_a_winner?
+To check if there is a draw, only do : game.there_is_a_draw?
+
+And if you want to restart the game, is simple too.
+
+game.restart_game
+
+And repeat the same instructions above to keep playing.
+
+
+
+If was a draw the second-last will start.
+If there was a winner the loser will start.
+
+
 
 
 
