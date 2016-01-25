@@ -32,7 +32,7 @@ The class Player has only board and current player as instance methods. When you
 
 **select_chip** : This method is a helper to pass it through Judge to know the past player.
 
-###**Board**### 
+###**Board**###
 
 The Class Board define and create the current grid to play. In this case the grid is set with three by three dimensions.
 The implementation to increase the dimensions is pending. This method is manage by Player.
