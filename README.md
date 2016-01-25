@@ -40,6 +40,8 @@ The implementation to increase the dimensions is pending. This method is manage 
 
 Class Judge takes care if there is a winner or a draw game. 
 
+
+###----------------------------------------------------------------------------------------------------------###
 After this brief explanation, I'll show you how to handle the gem.
 
 The first step is to instantiate the Class Game. This class is the one that is going to interact all the time with the logic.
@@ -62,17 +64,5 @@ game.restart_game
 
 And repeat the same instructions above to keep playing.
 
-
-
 If was a draw the second-last will start.
 If there was a winner the loser will start.
-
-
-
-
-
-
-
-
-
-
