@@ -78,7 +78,7 @@ game.send_coordinate(x,y)
 ```
 
 To check if there is a winner, do: 
-
+it will be a winner if there are the number chips equal to the n board's size.
 ``` 
 game.there_is_a_winner?
 => true #if there is a winner
