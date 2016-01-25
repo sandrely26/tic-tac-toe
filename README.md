@@ -63,10 +63,10 @@ The first step is require the gem:
 require 'tic_tac_toe' 
 ```
 
-After that you need to instantiate the Class Game. This class is the one that is going to interact all the time with the logic.
+After that you need to instantiate the Class Game passing a parameters as the board's size. This class is the one that is going to interact all the time with the logic.
 
 ```
-game = TicTacToc::Game.new
+game = TicTacToc::Game.new(3)
 ```
 
 After doing that, to start playing and setting the chips on grid and send the player coordinates, do this: 
