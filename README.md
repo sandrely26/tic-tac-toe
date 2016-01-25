@@ -71,21 +71,24 @@ game = TicTacToc::Game.new
 
 After doing that, to start playing and setting the chips on grid and send the player coordinates, do this: 
 
-```game.send_coordinate(x,y)
+```
+game.send_coordinate(x,y)
 => true #if the the coordinate was set correctly 
 => false #if not
 ```
 
 To check if there is a winner, do: 
 
-``` game.there_is_a_winner?
+``` 
+game.there_is_a_winner?
 => true #if there is a winner
 => false #there isn't a winner
 ```
 
 To check if there is a draw, do: 
 
-``` game.there_is_a_draw?
+``` 
+game.there_is_a_draw?
 => true #if there is a draw
 => false #if not
 ```
@@ -103,4 +106,4 @@ If there was a winner the loser will start.
 
 ###Upcoming
 
-- [] Use more than only three dimensions.
+- [ ] Use more than only three dimensions.
