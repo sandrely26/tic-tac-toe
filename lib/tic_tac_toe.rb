@@ -172,6 +172,7 @@ module TicTacToe
   end
 
   class Score
+
   end
 
 end
