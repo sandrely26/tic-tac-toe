@@ -9,6 +9,20 @@ module TicTacToe
       @judge = TicTacToe::Judge.new
     end
 
+    def send_coordinate(x,y)
+      #if there is a position to set a chip
+      if player.set_chip_to_board(x,y)
+        #isnt a winner
+        judge.decrement_remaining_moves
+        judge.check_draw
+        judge.check_winner(player.board.grid,player.current_player)
+        player.change_turn_player
+        return true
+      else
+        return false
+      end
+    end
+
     def there_is_a_winner?
       judge.check_winner(player.board.grid, player.current_player)
     end
@@ -18,6 +32,7 @@ module TicTacToe
     end
 
     def restart_game
+      #cambiar jugadores al
       puts "restart game"
     end
   end
@@ -32,17 +47,15 @@ module TicTacToe
 
     def set_chip_to_board(x,y)
       if board.set_chip(x,y,current_player)
-         change_turn
          return true
       else
          return false
       end
     end
 
-    def change_turn
+    def change_turn_player
       @current_player = @current_player == 0 ? 1 : 0
     end
-
   end
 
   class Board
@@ -67,9 +80,11 @@ module TicTacToe
     end
   end
 
-  class Juedge
+  class Judge
     attr_reader :limit_moves_to_win, :limit_chips_to_win,
-      :remaining_moves, :winner, :draw
+      :winner, :draw
+   attr_accessor :remaining_moves
+    #decrementar las jugadas
 
     def initialize
       @limit_chips_to_win = 3
@@ -81,6 +96,10 @@ module TicTacToe
 
     def check_draw
       draw = (remaining_moves == 0) && !winner
+    end
+
+    def decrement_remaining_moves
+      @remaining_moves -= 1
     end
 
     def check_winner(grid,current_player)
