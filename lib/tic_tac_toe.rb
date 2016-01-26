@@ -1,13 +1,14 @@
 require "tic_tac_toe/version"
 
 module TicTacToe
+
   class Game
     attr_reader :board, :player, :judge, :score, :last_player
 
-    def initialize
-      @player = TicTacToe::Player.new
+    def initialize(size)
+      @player = TicTacToe::Player.new(size)
       @player.current_player = 0
-      @judge = TicTacToe::Judge.new
+      @judge = TicTacToe::Judge.new(size)
     end
 
     def send_coordinate(x,y)
@@ -32,23 +33,24 @@ module TicTacToe
       judge.check_draw
     end
 
-    def restart_game
+    def restart_game(size)
       last_player = player.current_player
-      @player = TicTacToe::Player.new
-      if judge.draw
-        player.current_player = last_player == 0 ? 1 : 0
-      else
-        player.current_player = last_player
-      end
-      @judge = TicTacToe::Judge.new
+      @player = TicTacToe::Player.new(size)
+        if judge.draw
+          player.current_player = last_player == 0 ? 1 : 0
+        else
+          player.current_player = last_player
+        end
+      @judge = TicTacToe::Judge.new(size)
     end
+
   end
 
   class Player
     attr_accessor :board, :current_player
 
-    def initialize
-      @board = TicTacToe::Board.new
+    def initialize(size)
+      @board = TicTacToe::Board.new(size)
     end
 
     def set_chip_to_board(x,y)
@@ -71,8 +73,8 @@ module TicTacToe
   class Board
     attr_reader :grid
 
-    def initialize
-      @grid = Array.new(3) { Array.new(3) }
+    def initialize(size)
+      @grid = Array.new(size) { Array.new(size) }
     end
 
     #private
@@ -95,8 +97,8 @@ module TicTacToe
     attr_accessor :remaining_moves, :winner, :draw
     #decrementar las jugadas
 
-    def initialize
-      @limit_chips_to_win = 3
+    def initialize(size)
+      @limit_chips_to_win = size
       @limit_moves_to_win = @limit_chips_to_win*@limit_chips_to_win
       @remaining_moves = @limit_moves_to_win
       @winner = false
@@ -118,9 +120,7 @@ module TicTacToe
       check_grid_diagonal_left_down(grid, chip)
     end
 
-    #necesito tomar una ficha de referencia no debe de ser nil
-    #solo puede ser 0 o 1 y ahi hacer el recorrigo por el tablero
-    def check_grid_horizontal(grid, chip)
+    def check_grid_horizontal(grid,chip)
       for i in 0..(limit_chips_to_win - 1)
         num_chips = 0
         for j in 0..(limit_chips_to_win - 1)
