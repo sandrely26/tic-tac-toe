@@ -33,16 +33,17 @@ module TicTacToe
       judge.check_draw
     end
 
-    def restart_game
+    def restart_game(size)
       last_player = player.current_player
-      @player = TicTacToe::Player.new
-      if judge.draw
-        player.current_player = last_player == 0 ? 1 : 0
-      else
-        player.current_player = last_player
-      end
-      @judge = TicTacToe::Judge.new
+      @player = TicTacToe::Player.new(size)
+        if judge.draw
+          player.current_player = last_player == 0 ? 1 : 0
+        else
+          player.current_player = last_player
+        end
+      @judge = TicTacToe::Judge.new(size)
     end
+
   end
 
   class Player
