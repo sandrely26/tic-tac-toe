@@ -93,10 +93,10 @@ game.there_is_a_draw?
 => false #if not
 ```
 
-And if you want to restart the game, is simple too.
+And if you want to restart the game, is simple too but don't forget to send the size of board again.
 
 ```
-game.restart_game
+game.restart_game(size_of_board)
 ```
 
 And repeat the same instructions above to keep playing.
